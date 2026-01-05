@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÖSD Zertifikat A1 - Lesen Übungssatz</title>
+    <style>
+        :root {
+            --primary: #2f2a24;
+            --accent: #8a7c6a;
+            --success: #2f7b3a;
+            --error: #b24a3a;
+            --bg: #f6f1e7;
+            --card-bg: #fdfbf7;
+        }
+
+        body {
+            font-family: "Georgia", "Times New Roman", serif;
+            background: var(--bg);
+            color: var(--primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+        }
+
+        header {
+            background: linear-gradient(180deg, #fdfbf7 0%, #f3ecdf 100%);
+            color: var(--primary);
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid #d8cdbd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        header p {
+            margin: 0.35rem 0 0;
+            font-size: 0.9rem;
+            color: #4d4336;
+        }
+
+        .timer-box {
+            background: #3f382f;
+            color: #fffef9;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.2rem 1rem 2rem;
+            background: #fffef9;
+            border-left: 1px solid #e0d6c8;
+            border-right: 1px solid #e0d6c8;
+        }
+
+        .section-title {
+            border-bottom: 1px solid #c9beaf;
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.8rem;
+            margin-top: 2rem;
+            color: #3b3329;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: none;
+            letter-spacing: 0.05em;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.85rem;
+            border: 1px solid #d8cdbd;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 0.98rem;
+        }
+
+        .question-text span {
+            background: #3f382f;
+            color: #fffef9 !important;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .question-input {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f6f0e5;
+            padding: 0.55rem 0.75rem;
+            border-radius: 5px;
+            border: 1px solid #d8cdbd;
+            font-size: 0.95rem;
+        }
+
+        select {
+            padding: 7px 12px;
+            border: 1px solid #b6aa98;
+            border-radius: 4px;
+            font-size: 1rem;
+            background: #fffdf8;
+            min-width: 120px;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .ad-card {
+            background: var(--card-bg);
+            border: 1px solid #d5cabb;
+            border-radius: 6px;
+            padding: 1.5rem 1rem;
+            position: relative;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .ad-number {
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            background: #3f382f;
+            color: #fffef9;
+            width: 30px;
+            height: 30px;
+            border-radius: 0 0 6px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-right: 1px solid #d5cabb;
+            border-bottom: 1px solid #d5cabb;
+            z-index: 10;
+        }
+
+        .ad-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .ad-subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .ad-content {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .ad-footer {
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: auto;
+        }
+
+        /* Specific Ad Styles */
+        .ad-1 {
+            border-radius: 15px;
+            border: 2px solid #3f382f;
+        }
+
+        .ad-2 {
+            border-radius: 0 20px 0 20px;
+            border: 2px solid #3f382f;
+        }
+
+        .ad-3 {
+            border: 2px dashed #3f382f;
+            border-radius: 10px;
+        }
+
+        .ad-4 {
+            border-radius: 20px;
+            border: 2px solid #3f382f;
+            background: #f9f6f0;
+        }
+
+        .ad-5 {
+            border: 2px dotted #3f382f;
+            border-radius: 8px;
+        }
+
+        .ad-6 {
+            border: 2px solid #3f382f;
+            transform: rotate(-0.5deg);
+        }
+
+        /* Aufgabe 2 Styles */
+        .yn-card {
+            background: var(--card-bg);
+            border: 1px solid #d8cdbd;
+            border-radius: 6px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.85rem;
+            text-align: left;
+        }
+
+        .yn-question {
+            font-weight: 600;
+            margin-bottom: 0.65rem;
+        }
+
+        .yn-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .yn-option {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.65rem;
+            background: #f6f0e5;
+            border: 1px solid #d8cdbd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .yn-option input {
+            accent-color: #3f382f;
+        }
+
+        .primary-btn {
+            background-color: #3f382f;
+            color: #fffef9;
+            border: 1px solid #2f2a24;
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .correct {
+            border-color: var(--success) !important;
+            background-color: rgba(39, 174, 96, 0.1) !important;
+        }
+
+        .incorrect {
+            border-color: var(--error) !important;
+            background-color: rgba(192, 57, 43, 0.1) !important;
+        }
+
+        .feedback-msg {
+            font-weight: bold;
+            margin-left: 10px;
+            font-size: 0.9rem;
+        }
+
+        .text-correct {
+            color: var(--success);
+        }
+
+        .text-error {
+            color: var(--error);
+        }
+
+        /* Aufgabe 3 Styles - matching lesen teil1.html */
+        .image-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .image-card {
+            background: var(--card-bg);
+            border: 1px solid #d5cabb;
+            border-radius: 6px;
+            padding: 0.65rem;
+            text-align: center;
+        }
+
+        .image-card img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 0.4rem;
+            border-radius: 4px;
+        }
+
+        .image-label {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Beautiful text box for Aufgabe 3 */
+        .text-box {
+            background: linear-gradient(135deg, #fdfbf7 60%, #f3ecdf 100%);
+            border: 2px solid #c9beaf;
+            border-radius: 14px;
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 16px rgba(60, 50, 40, 0.07);
+            position: relative;
+        }
+
+        .text-box-badge {
+            position: absolute;
+            top: -14px;
+            left: 16px;
+            background: #3f382f;
+            color: #fffef9;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 4px 14px;
+            border-radius: 8px;
+            letter-spacing: 0.06em;
+        }
+
+        .text-box-content {
+            margin-top: 0.5rem;
+            font-size: 0.97rem;
+            line-height: 1.55;
+            color: #2f2a24;
+        }
+
+        .text-box-select {
+            margin-top: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .teil3-questions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        #result-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fffdf8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #d8cdbd;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+            text-align: center;
+            z-index: 2000;
+            width: 80%;
+            max-width: 320px;
+        }
+
+        #modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(30, 25, 20, 0.35);
+            z-index: 1500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-left">
+            <h1>Lesen Aufgabe 1</h1>
+            <p>Finden Sie die passende Anzeige (1-6) für jede Situation (A-E).</p>
+        </div>
+        <div class="timer-box">
+            <span>⏱</span>
+            <span id="timer-display">25:00</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">Situationen</div>
+        <div id="questions-container"></div>
+
+        <div class="section-title">Anzeigen</div>
+        <div class="ads-grid">
+            <div class="ad-card ad-1">
+                <div class="ad-number">1</div>
+                <span class="ad-title">Miet-Hit</span>
+                <span class="ad-subtitle">Wohnen am Stadtrand</span>
+                <div class="ad-content">
+                    Drei Zimmer, Nebenräume, Balkon<br>
+                    Familienfreundlicher Wohnpark mit<br>
+                    Garagenplatz für Ihr Auto
+                </div>
+                <div class="ad-footer">Infos: http://www.gewog.at</div>
+            </div>
+
+            <div class="ad-card ad-2">
+                <div class="ad-number">2</div>
+                <span class="ad-title">Computer-Börse</span>
+                <span class="ad-subtitle">Probleme mit dem Computer?</span>
+                <div class="ad-content">
+                    Wir bieten: neue und gebrauchte<br>
+                    PCs, verschiedenes Zubehör und<br>
+                    Reparaturen
+                </div>
+                <div class="ad-footer">Internet: www.computer.de</div>
+            </div>
+
+            <div class="ad-card ad-3">
+                <div class="ad-number">3</div>
+                <span class="ad-title">Verkäufer/Verkäuferin gesucht!</span>
+                <div class="ad-content">
+                    Wir suchen eine kompetente<br>
+                    Verkaufskraft für unseren Handy- und<br>
+                    Computerladen in Basel.<br>
+                    <strong>Ihre Qualifikation:</strong><br>
+                    Erfahrung im Verkauf, Kenntnisse<br>
+                    über neueste EDV und Internet-Software
+                </div>
+                <div class="ad-footer">Kontakt: office@computerladen.ch</div>
+            </div>
+
+            <div class="ad-card ad-4">
+                <div class="ad-number">4</div>
+                <span class="ad-title">Der ONLINE-PREISHAMMER</span>
+                <div class="ad-content">
+                    Surfen Sie jetzt im Internet so<br>
+                    lange Sie wollen!<br>
+                    <strong>Für nur 10 Euro im Monat</strong>
+                </div>
+                <div class="ad-footer">
+                    Nähere Informationen und Anmeldungen bei:<br>
+                    <strong>ONLINE, Tel: 0800-33 21 300</strong>
+                </div>
+            </div>
+
+            <div class="ad-card ad-5">
+                <div class="ad-number">5</div>
+                <div class="ad-content">
+                    Holen Sie sich die besten <strong>Handys</strong><br>
+                    und <strong>Smartphones</strong> ab 0 €<br>
+                    und telefonieren Sie zum<br>
+                    <strong>billigsten Tarif in ganz Österreich.</strong>
+                </div>
+                <div class="ad-footer">
+                    Gleich anmelden bei:<br>
+                    Techno-Star Telefonsysteme<br>
+                    <strong>54-mal in Österreich</strong><br>
+                    www.techno-star.at
+                </div>
+            </div>
+
+            <div class="ad-card ad-6">
+                <div class="ad-number">6</div>
+                <span class="ad-title">KAUFEN oder VERKAUFEN?</span>
+                <div class="ad-content">
+                    Sie wollen gebrauchte Dinge kaufen oder<br>
+                    Ihren alten Fernseher, Möbel oder etwas<br>
+                    anderes verkaufen?<br>
+                    <strong>Mit einer Anzeige in Ihrer Bezirkszeitung<br>
+                        ist das einfach!</strong>
+                </div>
+                <div class="ad-footer">
+                    Telefonische Anfragen unter:<br>
+                    01 54 100/ DW 32<br>
+                    Anzeigenbüro
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 40px;"></div>
+        <header style="border: none; padding: 0; margin-bottom: 1rem; background: transparent;">
+            <h1>Lesen Aufgabe 2</h1>
+            <p>Sie lesen drei Anzeigen. Beantworten Sie je zwei Fragen mit JA oder NEIN.</p>
+        </header>
+
+        <div class="section-title">Anzeigen & Fragen</div>
+        <div class="ads-grid" id="teil2-pairs">
+            <!-- Ad 1 -->
+            <div class="ad-card ad-3">
+                <span class="ad-title">Damen-Friseursalon Helga</span>
+                <div class="ad-content">
+                    Neue Öffnungszeiten:<br>
+                    Di.–Do. 11–18 Uhr<br>
+                    Fr. 15–20 Uhr<br>
+                    Sa. 10–14 Uhr<br><br>
+                    Haare waschen – schneiden –<br>
+                    färben – Dauerwelle<br><br>
+                    Aktion für Studentinnen:<br>
+                    minus 50 Prozent!
+                </div>
+
+                <div class="yn-card">
+                    <div class="yn-question">1. Können Sie am Freitagvormittag Ihre Haare schneiden lassen?</div>
+                    <div class="yn-options">
+                        <label class="yn-option"><input type="radio" name="yn-1" value="true"> JA</label>
+                        <label class="yn-option"><input type="radio" name="yn-1" value="false"> NEIN</label>
+                        <span id="yn-feedback-1" class="feedback-msg"></span>
+                    </div>
+                </div>
+                <div class="yn-card">
+                    <div class="yn-question">2. Zahlen Studentinnen den halben Preis?</div>
+                    <div class="yn-options">
+                        <label class="yn-option"><input type="radio" name="yn-2" value="true"> JA</label>
+                        <label class="yn-option"><input type="radio" name="yn-2" value="false"> NEIN</label>
+                        <span id="yn-feedback-2" class="feedback-msg"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad 2 -->
+            <div class="ad-card ad-1">
+                <span class="ad-title">Weltcafé</span>
+                <div class="ad-content">
+                    Vegetarische Küche<br>
+                    Mittagsmenü (Suppe und<br>
+                    Hauptspeise) für 5,80 Euro<br>
+                    Überdachter Gastgarten!<br><br>
+                    <strong>NEU jeden Freitag:</strong><br>
+                    Essen mit Musik<br>
+                    von 18:00 bis 23:00 Uhr<br>
+                    nur mit Reservierung
+                </div>
+
+                <div class="yn-card">
+                    <div class="yn-question">3. Gibt es im Weltcafé Hauptspeisen ohne Fleisch?</div>
+                    <div class="yn-options">
+                        <label class="yn-option"><input type="radio" name="yn-3" value="true"> JA</label>
+                        <label class="yn-option"><input type="radio" name="yn-3" value="false"> NEIN</label>
+                        <span id="yn-feedback-3" class="feedback-msg"></span>
+                    </div>
+                </div>
+                <div class="yn-card">
+                    <div class="yn-question">4. Muss man am Freitagabend reservieren?</div>
+                    <div class="yn-options">
+                        <label class="yn-option"><input type="radio" name="yn-4" value="true"> JA</label>
+                        <label class="yn-option"><input type="radio" name="yn-4" value="false"> NEIN</label>
+                        <span id="yn-feedback-4" class="feedback-msg"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad 3 -->
+            <div class="ad-card ad-5">
+                <span class="ad-title">HAUPTBAHNHOF NEU</span>
+                <span class="ad-subtitle">Wir bauen für Sie!</span>
+                <div class="ad-content">
+                    Der Haupteingang am Rudolfsplatz ist bis<br>
+                    Dezember geschlossen. Bitte nehmen Sie<br>
+                    den Eingang in der Bahnhofstraße.<br><br>
+                    Die Schalter für Fahrkarten<br>
+                    und die Information haben ganz normal<br>
+                    für Sie geöffnet.<br><br>
+                    Wir danken für Ihr Verständnis!
+                </div>
+
+                <div class="yn-card">
+                    <div class="yn-question">5. Ist der Eingang in der Bahnhofstraße geschlossen?</div>
+                    <div class="yn-options">
+                        <label class="yn-option"><input type="radio" name="yn-5" value="true"> JA</label>
+                        <label class="yn-option"><input type="radio" name="yn-5" value="false"> NEIN</label>
+                        <span id="yn-feedback-5" class="feedback-msg"></span>
+                    </div>
+                </div>
+                <div class="yn-card">
+                    <div class="yn-question">6. Können Sie im Bahnhof Tickets kaufen?</div>
+                    <div class="yn-options">
+                        <label class="yn-option"><input type="radio" name="yn-6" value="true"> JA</label>
+                        <label class="yn-option"><input type="radio" name="yn-6" value="false"> NEIN</label>
+                        <span id="yn-feedback-6" class="feedback-msg"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 40px;"></div>
+        <header style="border: none; padding: 0; margin-bottom: 1rem; background: transparent;">
+            <h1>Lesen Aufgabe 3</h1>
+            <p>Ordnen Sie die Bilder (1-6) den Texten A-E zu. Ein Bild bleibt übrig.</p>
+        </header>
+
+        <div class="section-title">Bilder</div>
+        <div class="image-row">
+            <div class="image-card"><img src="lh/1.png" alt="Bild 1">
+                <div class="image-label">Bild 1</div>
+            </div>
+            <div class="image-card"><img src="lh/2.png" alt="Bild 2">
+                <div class="image-label">Bild 2</div>
+            </div>
+            <div class="image-card"><img src="lh/3.png" alt="Bild 3">
+                <div class="image-label">Bild 3</div>
+            </div>
+            <div class="image-card"><img src="lh/4.png" alt="Bild 4">
+                <div class="image-label">Bild 4</div>
+            </div>
+            <div class="image-card"><img src="lh/5.png" alt="Bild 5">
+                <div class="image-label">Bild 5</div>
+            </div>
+            <div class="image-card"><img src="lh/6.png" alt="Bild 6">
+                <div class="image-label">Bild 6</div>
+            </div>
+        </div>
+
+        <div class="section-title" style="margin-top:1.5rem;">Texte</div>
+        <div class="teil3-questions-container" id="aufgabe3-texts">
+            <!-- Text A -->
+            <div class="text-box">
+                <div class="text-box-badge">A</div>
+                <div class="text-box-content">
+                    <strong>Herzlich willkommen in unserem Einkaufszentrum!</strong><br>
+                    Unsere neuen Parkplätze in der Parkgarage warten auf Sie – die erste Stunde kostet nichts!
+                </div>
+                <div class="text-box-select">
+                    <label>Bild Nr.:</label>
+                    <select id="aufgabe3-A">
+                        <option value="">- ? -</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    <span id="aufgabe3-feedback-A" class="feedback-msg"></span>
+                </div>
+            </div>
+
+            <!-- Text B -->
+            <div class="text-box">
+                <div class="text-box-badge">B</div>
+                <div class="text-box-content">
+                    <strong>Liebe Kundinnen und Kunden!</strong><br>
+                    Unsere Servicemitarbeiter sind rund um die Uhr für Sie da!<br>
+                    Kontaktieren Sie uns unter 034-99099 oder unter der Adresse service@clientsfirst.co.de
+                </div>
+                <div class="text-box-select">
+                    <label>Bild Nr.:</label>
+                    <select id="aufgabe3-B">
+                        <option value="">- ? -</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    <span id="aufgabe3-feedback-B" class="feedback-msg"></span>
+                </div>
+            </div>
+
+            <!-- Text C -->
+            <div class="text-box">
+                <div class="text-box-badge">C</div>
+                <div class="text-box-content">
+                    <strong>Liebe Naturfreunde,</strong><br>
+                    wir bitten Sie, diesen Park sauber zu halten. Bitte werfen Sie Ihren Abfall nicht im Park weg. An
+                    allen Ausgängen gibt es Mülleimer.
+                </div>
+                <div class="text-box-select">
+                    <label>Bild Nr.:</label>
+                    <select id="aufgabe3-C">
+                        <option value="">- ? -</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    <span id="aufgabe3-feedback-C" class="feedback-msg"></span>
+                </div>
+            </div>
+
+            <!-- Text D -->
+            <div class="text-box">
+                <div class="text-box-badge">D</div>
+                <div class="text-box-content">
+                    <strong>Liebe Museumsbesucherinnen,</strong><br>
+                    der Eingang für Rollstuhlfahrerinnen und Personen mit Kinderwägen ist in der Brunnerstraße Nr. 5.
+                    Bitte läuten Sie an der Tür, wir helfen Ihnen gerne.
+                </div>
+                <div class="text-box-select">
+                    <label>Bild Nr.:</label>
+                    <select id="aufgabe3-D">
+                        <option value="">- ? -</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    <span id="aufgabe3-feedback-D" class="feedback-msg"></span>
+                </div>
+            </div>
+
+            <!-- Text E -->
+            <div class="text-box">
+                <div class="text-box-badge">E</div>
+                <div class="text-box-content">
+                    <strong>Schneiderei Müller</strong><br>
+                    Ihr Kleid ist zu weit, Ihre Hose zu lang, Ihr Mantel zu kurz?<br>
+                    Kein Problem:<br>
+                    Wir ändern Ihre Kleidung für Sie!
+                </div>
+                <div class="text-box-select">
+                    <label>Bild Nr.:</label>
+                    <select id="aufgabe3-E">
+                        <option value="">- ? -</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    <span id="aufgabe3-feedback-E" class="feedback-msg"></span>
+                </div>
+            </div>
+        </div>
+
+        <button class="primary-btn" onclick="checkAnswers()">Antworten prüfen</button>
+        <div style="height: 40px;"></div>
+        <div class="iut-tag"
+            style="text-align: right; color: var(--accent); font-weight: 700; letter-spacing: 0.12em; margin-top: 0.5rem; font-size: 0.85rem;">
+            iut</div>
+    </div>
+
+    <div id="modal-overlay" onclick="closeModal()"></div>
+    <div id="result-modal">
+        <h2 id="modal-title">Ergebnis</h2>
+        <p id="modal-score"></p>
+        <button onclick="closeModal()"
+            style="padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 5px; margin-top: 10px;">Schließen</button>
+    </div>
+
+    <script>
+        // Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC46yRjiLRc6UAtV1bLj8ecb60vXg76-2g13KtDOgOURKL74tYDnUGQKzYhEHqgO0VXg/exec';
+
+        const questions = [
+            { id: 'A', text: "Sie haben ein altes Auto und möchten es verkaufen.", correct: 6 },
+            { id: 'B', text: "Sie bekommen ein Kind. Sie brauchen eine größere Wohnung.", correct: 1 },
+            { id: 'C', text: "Ihre Tochter braucht oft das Internet. Sie suchen ein Angebot.", correct: 4 },
+            { id: 'D', text: "Sie rufen gerne Ihre Freunde an und brauchen ein neues Mobiltelefon.", correct: 5 },
+            { id: 'E', text: "Ihr Computer ist kaputt. Sie möchten ihn reparieren lassen.", correct: 2 }
+        ];
+
+        const teil2Questions = [
+            { id: 1, correct: false }, // NEIN
+            { id: 2, correct: true },  // JA
+            { id: 3, correct: true },  // JA
+            { id: 4, correct: true },  // JA
+            { id: 5, correct: false }, // NEIN
+            { id: 6, correct: true }   // JA
+        ];
+
+        // Aufgabe 3 - Text to Image matching (A=5, B=6, C=2, D=3, E=1)
+        const aufgabe3Questions = [
+            { id: 'A', correct: 5 },
+            { id: 'B', correct: 6 },
+            { id: 'C', correct: 2 },
+            { id: 'D', correct: 3 },
+            { id: 'E', correct: 1 }
+        ];
+
+        const questionsContainer = document.getElementById('questions-container');
+
+        questions.forEach(q => {
+            const div = document.createElement('div');
+            div.className = 'question-card';
+            div.innerHTML = `
+            <div class="question-text">
+                <span>${q.id}</span>
+                ${q.text}
+            </div>
+            <div class="question-input">
+                <label>Anzeige Nr.:</label>
+                <div style="display:flex; align-items:center;">
+                    <select id="select-${q.id}">
+                        <option value="">- ? -</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+            </div>
+        `;
+            questionsContainer.appendChild(div);
+        });
+
+        let timeRemaining = 25 * 60;
+        let hasSubmitted = false;
+
+        setInterval(() => {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                document.getElementById('timer-display').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }, 1000);
+
+        function checkAnswers() {
+            // Confirm before submission
+            if (!confirm('Achtung: Nach dem Absenden können Sie Ihre Antworten nicht mehr ändern. Möchten Sie fortfahren?')) {
+                return;
+            }
+
+            // Scoring tables based on official ÖSD scoring
+            const score5Table = [0, 2, 4, 6, 8, 10]; // Aufgabe 1 & 3
+            const score6Table = [0, 0, 2, 4, 6, 8, 10]; // Aufgabe 2
+
+            let aufgabe1Correct = 0;
+            let aufgabe2Correct = 0;
+            let aufgabe3Correct = 0;
+
+            // Check Aufgabe 1
+            let all1 = true;
+            questions.forEach(q => {
+                const select = document.getElementById(`select-${q.id}`);
+                const userVal = parseInt(select.value);
+                if (!userVal) all1 = false;
+                if (userVal === q.correct) aufgabe1Correct++;
+            });
+            if (!all1 && aufgabe1Correct === 0) {
+                alert('Bitte wählen Sie für jede Situation eine Anzeige aus.');
+                return;
+            }
+
+            // Check Aufgabe 2
+            let all2 = true;
+            teil2Questions.forEach(q => {
+                const selected = document.querySelector(`input[name="yn-${q.id}"]:checked`);
+                if (!selected) { all2 = false; return; }
+                const userVal = selected.value === 'true';
+                if (userVal === q.correct) aufgabe2Correct++;
+            });
+            if (!all2 && aufgabe2Correct === 0) {
+                alert('Bitte beantworten Sie jede Frage mit JA oder NEIN.');
+                return;
+            }
+
+            // Check Aufgabe 3
+            let all3 = true;
+            aufgabe3Questions.forEach(q => {
+                const select = document.getElementById(`aufgabe3-${q.id}`);
+                const userVal = parseInt(select.value);
+                if (!userVal) { all3 = false; return; }
+                if (userVal === q.correct) aufgabe3Correct++;
+            });
+            if (!all3 && aufgabe3Correct === 0) {
+                alert('Bitte wählen Sie für jeden Text eine Bildnummer aus.');
+                return;
+            }
+
+            // Calculate points
+            const aufgabe1Points = score5Table[aufgabe1Correct] || 0;
+            const aufgabe2Points = score6Table[aufgabe2Correct] || 0;
+            const aufgabe3Points = score5Table[aufgabe3Correct] || 0;
+            const totalPoints = aufgabe1Points + aufgabe2Points + aufgabe3Points;
+
+            // Lock all inputs after submission
+            document.querySelectorAll('#questions-container select').forEach(sel => sel.setAttribute('disabled', 'true'));
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.setAttribute('disabled', 'true'));
+            document.querySelectorAll('[id^="aufgabe3-"]').forEach(sel => {
+                if (sel.tagName === 'SELECT') sel.setAttribute('disabled', 'true');
+            });
+            document.querySelector('.primary-btn').setAttribute('disabled', 'true');
+
+            // Send to Google Sheets
+            const participantName = localStorage.getItem('studentName') || '';
+            const participantEmail = localStorage.getItem('studentEmail') || '';
+
+            if (!hasSubmitted && participantName && participantEmail) {
+                hasSubmitted = true;
+                sendResultToSheet({
+                    timestamp: new Date().toISOString(),
+                    name: participantName,
+                    email: participantEmail,
+                    examType: 'Lesen Übungssatz',
+                    score: totalPoints,
+                    aufgabe1: aufgabe1Points,
+                    aufgabe2: aufgabe2Points,
+                    aufgabe3: aufgabe3Points
+                });
+            }
+
+            // Show simple confirmation modal (NO answers shown to students)
+            document.getElementById('modal-title').textContent = 'Abgeschlossen';
+            document.getElementById('modal-score').textContent = 'Vielen Dank! Ihre Antworten wurden übermittelt.';
+            document.getElementById('result-modal').style.display = 'block';
+            document.getElementById('modal-overlay').style.display = 'block';
+        }
+
+        function sendResultToSheet(payload) {
+            console.log('Sending payload:', JSON.stringify(payload));
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                console.log('Data sent successfully');
+            }).catch((err) => {
+                console.error('Konnte Ergebnis nicht an Google Sheet senden:', err);
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('result-modal').style.display = 'none';
+            document.getElementById('modal-overlay').style.display = 'none';
+        }
+    </script>
+
+</body>
+
+</html>
